@@ -47,7 +47,7 @@ const loadNews = () =>{
 const displayNews = (news) =>{
     const newsContainer = document.getElementById('news-container');
     news.forEach(single => {
-        console.log(single)
+        //  console.log(single)
         const {image_url, title, details,author,total_view } = single;
         const newsDiv = document.createElement('div');
         newsDiv.classList.add('row');
@@ -67,6 +67,7 @@ const displayNews = (news) =>{
                       <p>${author.published_date}</p>
                       </div>
                       <p class="mx-auto">Total view: ${total_view}</p>
+                      <button class="btn btn-primary h-25"  data-bs-toggle="modal" data-bs-target="#exampleModal" onclick="displayNewsDetail('${single._id}')">Show Details</button>
                       </div>
                       
                     </div>
@@ -75,4 +76,18 @@ const displayNews = (news) =>{
     newsContainer.appendChild(newsDiv);
     });
 }
-loadNews()
+
+const loadNewsDetail = (id) =>{
+    const url = ` https://openapi.programming-hero.com/api/news/0282e0e58a5c404fbd15261f11c2ab6a`
+     fetch(url)
+     .then(res=>res.json())
+     .then(data=>displayNewsDetail(data.data[0]))
+    
+    }
+
+    const displayNewsDetail = (single) =>{
+       console.log(single)
+       const newsDetail = document.getElementById('')
+    }
+    loadNewsDetail()
+    loadNews()
