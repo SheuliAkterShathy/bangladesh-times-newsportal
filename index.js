@@ -36,7 +36,7 @@ loadAllCategories()
 
 // news setup
 const loadAllNews = async(category_id) =>{
-  
+  toggleSpinner(true)
   const url= `https://openapi.programming-hero.com/api/news/category/${category_id}`
   const res = await fetch(url);
   const data = await res.json();
@@ -66,12 +66,13 @@ newses.forEach(news => {
                       <p>${author.published_date}</p>
                       </div>
                       <p class="mx-auto">Total view: ${total_view}</p>
-                      <button class="btn btn-primary h-25"  data-bs-toggle="modal" data-bs-target="#exampleModal" onclick="loadNewsDetail('${_id}')">Show Details</button>
+                      <button class="btn btn-primary h-25"  data-bs-toggle="modal" data-bs-target="#exampleModal" onclick="loadNewsDetail('${_id}') ">Show Details</button>
                      </div>
               </div>
            `
 newsContainer.appendChild(newsDiv)
 });
+toggleSpinner(false)
 }
 
 
@@ -96,7 +97,17 @@ const loadNewsDetail = async(news_id) =>{
   <p>total view:${total_view ? total_view : 'not found'}</p>
   `          
 }
-loadAllNews(' ');
+
+const toggleSpinner = isLoading =>{
+  const loaderSection = document.getElementById('loader');
+  if(isLoading){
+    loaderSection.classList.remove('d-none')
+  }
+  else{
+      loaderSection.classList.add('d-none')
+  }
+}
+loadAllNews('');
 
 
 
