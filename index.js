@@ -14,12 +14,16 @@
 // loadNews();
 
 const loadAllCategories = async() =>{
-  
+  try {
     const url= `https://openapi.programming-hero.com/api/news/categories`
     const res = await fetch(url);
     const data = await res.json();
     setAllMenu(data.data.news_category)
-    console.log(data.data.news_category)
+    
+  } catch (error) {
+    alert(error)
+  }
+   
     
   }
  const setAllMenu=async(catagories) =>{
@@ -38,10 +42,16 @@ loadAllCategories()
 // news setup
 const loadAllNews = async(category_id) =>{
   toggleSpinner(true)
-  const url= `https://openapi.programming-hero.com/api/news/category/${category_id}`
+  try{
+    const url= `https://openapi.programming-hero.com/api/news/category/${category_id}`
   const res = await fetch(url);
   const data = await res.json();
   displayAllNews(data.data)
+  }
+
+  catch (error){
+    alert(error)
+  }
   
 }
 
@@ -68,7 +78,7 @@ newses.forEach(news => {
            <div class="card">
                 <img src="${image_url}" class="card-img-top" alt="...">
                 <div class="card-body">
-                  <h5 class="card-title">${title}</</h5>
+                  <h6 class="card-title">${title}</</h6>
                   <p class="card-text">${details.length > 180 ? details.slice(0,180) + '...' : details}</p>
                 </div>
                 <div class="d-flex">
@@ -89,12 +99,16 @@ toggleSpinner(false)
 
 
 const loadNewsDetail = async(news_id) =>{
-  
-  const url= `https://openapi.programming-hero.com/api/news/${news_id}`
-  const res = await fetch(url);
-  const data = await res.json();
-  displayNewsDetail(data.data[0])
-  
+  try {
+    const url= `https://openapi.programming-hero.com/api/news/${news_id}`
+    const res = await fetch(url);
+    const data = await res.json();
+    displayNewsDetail(data.data[0])
+    
+  } catch (error) {
+    alert(error)
+  }
+ 
 }
  const displayNewsDetail = (newsDetail) =>{
  console.log(newsDetail)
