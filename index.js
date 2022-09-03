@@ -1,12 +1,12 @@
-
+// categories start
 const loadAllCategories = async() =>{
   try {
     const url= `https://openapi.programming-hero.com/api/news/categories`
     const res = await fetch(url);
     const data = await res.json();
     setAllMenu(data.data.news_category)
-    
-  } catch (error) {
+    }
+  catch (error) {
     alert(error)
   }
    
@@ -15,8 +15,7 @@ const loadAllCategories = async() =>{
  const setAllMenu=async(catagories) =>{
    
      const menu = document.getElementById("all-menu");
-    catagories.forEach(catagory => {
-         console.log(catagory)
+     catagories.forEach(catagory => {
         const li = document.createElement("li");
         li.innerHTML = `<a onclick="loadAllNews('${catagory.category_id}')">${catagory. category_name}</a>`;
         menu.appendChild(li);
@@ -25,7 +24,7 @@ const loadAllCategories = async() =>{
  }
 loadAllCategories()
 
-// news setup
+// news load
 const loadAllNews = async(category_id) =>{
   toggleSpinner(true)
   try{
@@ -33,8 +32,7 @@ const loadAllNews = async(category_id) =>{
   const res = await fetch(url);
   const data = await res.json();
   displayAllNews(data.data)
- 
-  }
+ }
 
   catch (error){
     alert(error)
@@ -52,7 +50,7 @@ const displayAllNews = (newses) =>{
   }
   else{
     foundItems.innerHTML=`
-    <h5>No items found for this category'</h5>
+    <h5>No items found for this category.</h5>
     `
   }
  
@@ -61,8 +59,6 @@ const displayAllNews = (newses) =>{
   newses.sort((a, b) => b.total_view - a.total_view);
   newses.forEach(news => {
   
-
-  console.log(news)
   const {image_url, title, details,author,total_view,_id } = news;
 
   const newsDiv = document.createElement('div');
@@ -74,7 +70,7 @@ const displayAllNews = (newses) =>{
                   <h5 class="card-title">${title}</h5>
                   <p class="card-text">${details.length > 180 ? details.slice(0,180) + '...' : details}</p>
                 </div>
-                <div class="d-flex p-2" id="author">
+                <div class="d-flex px-3" id="author">
                       <img src="${author.img ? author.img: `no found image`}" style="width:50px" class="rounded-circle me-2">
 
                       <div>
@@ -87,15 +83,13 @@ const displayAllNews = (newses) =>{
                      <button class="btn btn-primary ms-5 h-75"  data-bs-toggle="modal" data-bs-target="#exampleModal" onclick="loadNewsDetail('${_id}')">Details</button>
                      </div>
               </div>
-           `
+           `;
 newsContainer.appendChild(newsDiv)
 });
 toggleSpinner(false)
-
-
 }
 
-
+// news details
 const loadNewsDetail = async(news_id) =>{
   try {
     const url= `https://openapi.programming-hero.com/api/news/${news_id}`
@@ -133,7 +127,6 @@ const toggleSpinner = isLoading =>{
       loaderSection.classList.add('d-none')
   }
 }
-
 
 loadAllNews('08');
 
