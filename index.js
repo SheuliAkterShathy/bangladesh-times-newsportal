@@ -1,17 +1,3 @@
-// const loadNews = () =>{
-//     const url=`https://openapi.programming-hero.com/api/news/categories`
-//       fetch(url)
-//     .then(res=>res.json())
-//     .then(data=>setAllNews(data))
-// }
-
-// const setAllNews =(newss) =>{
-//     newss.forEach(item => {
-//     console.log(item)
-    
-// });
-// }
-// loadNews();
 
 const loadAllCategories = async() =>{
   try {
@@ -58,14 +44,15 @@ const loadAllNews = async(category_id) =>{
 
 const displayAllNews = (newses) =>{
   const foundItems = document.getElementById('found-items');
+  
   if(newses.length>0){
     foundItems.innerHTML=`
-    <h4>${newses.length} items found for this category'</h4>
+    <h5>${newses.length} items found for this category.</h5>
     `
   }
   else{
     foundItems.innerHTML=`
-    <h4>No items found for this category'</h4>
+    <h5>No items found for this category'</h5>
     `
   }
  
@@ -73,7 +60,7 @@ const displayAllNews = (newses) =>{
   newsContainer.innerHTML = '';
   newses.sort((a, b) => b.total_view - a.total_view);
   newses.forEach(news => {
-  // console.log(`${news.total_view}`)
+  
 
   console.log(news)
   const {image_url, title, details,author,total_view,_id } = news;
@@ -81,20 +68,23 @@ const displayAllNews = (newses) =>{
   const newsDiv = document.createElement('div');
            newsDiv.classList.add('col');
            newsDiv.innerHTML =`
-           <div class="card">
+           <div class="card h-100">
                 <img src="${image_url}" class="card-img-top" alt="...">
                 <div class="card-body">
-                  <h6 class="card-title">${title}</</h6>
+                  <h5 class="card-title">${title}</h5>
                   <p class="card-text">${details.length > 180 ? details.slice(0,180) + '...' : details}</p>
                 </div>
-                <div class="d-flex">
-                      <img src="${author.img ? author.img: `no found image`}" style="width:60px" class="rounded-circle me-3">
+                <div class="d-flex p-2" id="author">
+                      <img src="${author.img ? author.img: `no found image`}" style="width:50px" class="rounded-circle me-2">
+
                       <div>
-                      <p>${author.name? author.name: `no found information`}</p>
-                      <p>${author.published_date}</p>
+                      <p>Author name: ${author.name? author.name: `no found information`}</p>
+                      <p> Published: ${author.published_date ? author.published_date : 'No found date' }</p>
                       </div>
-                      <p class="mx-auto">Total view: ${total_view}</p>
-                      <button class="btn btn-primary h-25"  data-bs-toggle="modal" data-bs-target="#exampleModal" onclick="loadNewsDetail('${_id}') ">Show Details</button>
+                       <div class="d-flex justify-content-evently">
+                      <p>Total view: ${total_view ? total_view: 'Not found data' }</p>
+                     
+                     <button class="btn btn-primary ms-5 h-75"  data-bs-toggle="modal" data-bs-target="#exampleModal" onclick="loadNewsDetail('${_id}')">Details</button>
                      </div>
               </div>
            `
@@ -126,10 +116,11 @@ const loadNewsDetail = async(news_id) =>{
           modalTitle.innerText=title;
   const modalDetails = document.getElementById('modalBodyDetails');
   modalDetails.innerHTML=`
-  <img " src ="${image_url}" style="width:100%"  >
-  <p>Author name:${author.name ? author.name : 'no name found'} </p>
+  <img src ="${image_url}" style="width:100%;">
+  <p>Author name:${author.name ? author.name : 'No name found'} </p>
   <p>Published date: ${author.published_date ? author.published_date :'no date found'}</p>
-  <p>total view:${total_view ? total_view : 'not found'}</p>
+  <p>total view:${total_view ? total_view : 'No data found'}</p>
+  <p class="card-text">${details.length > 110 ? details.slice(0,110) + '...' : details}</p>
   `          
 }
 
@@ -148,61 +139,8 @@ loadAllNews('08');
 
 
 
-// const loadNews = async() =>{
-//     const url=`https://openapi.programming-hero.com/api/news/category/${id}`
-//     const res = await fetch(url)
-//     const data = await res.json();
-//     displayNews(data.data)
-// }
-// const displayNews = (newses) =>{
-//     const newsContainer = document.getElementById('news-container');
-//     // console.log(news)
-//     news.forEach(single => {
-//         const {image_url, title, details,author,total_view,_id } = single;
-//         const newsDiv = document.createElement('div');
-//         newsDiv.classList.add('row');
-//         newsDiv.classList.add('border');
-//         newsDiv.innerHTML = `
-//         <div class="col-md-4 g-2">
-//                     <img src="${image_url}" class="img-fluid rounded-start" alt="...">
-//                   </div>
-//                   <div class="col-md-8">
-//                     <div class="card-body p-2">
-//                       <h5 class="card-title">${title}</h5>
-//                       <p class="card-text">${details.length > 220 ? details.slice(0,220) + '...' : details}</p>
-//                       <div class="d-flex">
-//                       <img src="${author.img ? author.img: `no found image`}" style="width:60px" class="rounded-circle me-3">
-//                       <div>
-//                       <p>${author.name? author.name: `no found information`}</p>
-//                       <p>${author.published_date}</p>
-//                       </div>
-//                       <p class="mx-auto">Total view: ${total_view}</p>
-//                       <button class="btn btn-primary h-25"  data-bs-toggle="modal" data-bs-target="#exampleModal" onclick="displayNewsDetail('${_id}')">Show Details</button>
-//                       </div>
-                      
-//                     </div>
-//                   </div>
-//     `
-//     newsContainer.appendChild(newsDiv);
-//     });
-// }
-// loadNews()
-// const loadNewsDetail = async () =>{
-//   const url = `https://openapi.programming-hero.com/api/news/${01}`;
-//   const res = await fetch(url);
-//   const data = await res.json();
-//   displayNewsDetail(data.data);
 
-// }
 
-//     const displayNewsDetail = (data) =>{
-//           // console.log(data)
-//         const modalTitle = document.getElementById('exampleModalLabel');
-//         modalTitle.innerText=data.title;
 
-    
-//     }
-    
-//     loadNewsDetail()
 
   
