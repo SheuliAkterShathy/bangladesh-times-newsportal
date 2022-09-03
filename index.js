@@ -47,12 +47,13 @@ const loadAllNews = async(category_id) =>{
   const res = await fetch(url);
   const data = await res.json();
   displayAllNews(data.data)
+ 
   }
 
   catch (error){
     alert(error)
   }
-  
+ 
 }
 
 const displayAllNews = (newses) =>{
@@ -67,11 +68,16 @@ const displayAllNews = (newses) =>{
     <h4>No items found for this category'</h4>
     `
   }
+ 
   const newsContainer = document.getElementById('news-container');
   newsContainer.innerHTML = '';
-newses.forEach(news => {
-  // console.log(news)
+  newses.sort((a, b) => b.total_view - a.total_view);
+  newses.forEach(news => {
+  // console.log(`${news.total_view}`)
+
+  console.log(news)
   const {image_url, title, details,author,total_view,_id } = news;
+
   const newsDiv = document.createElement('div');
            newsDiv.classList.add('col');
            newsDiv.innerHTML =`
@@ -95,6 +101,8 @@ newses.forEach(news => {
 newsContainer.appendChild(newsDiv)
 });
 toggleSpinner(false)
+
+
 }
 
 
@@ -104,7 +112,7 @@ const loadNewsDetail = async(news_id) =>{
     const res = await fetch(url);
     const data = await res.json();
     displayNewsDetail(data.data[0])
-    
+  
   } catch (error) {
     alert(error)
   }
@@ -113,6 +121,7 @@ const loadNewsDetail = async(news_id) =>{
  const displayNewsDetail = (newsDetail) =>{
  console.log(newsDetail)
  const {image_url, title, details,author,total_view,_id } = newsDetail;
+
  const modalTitle = document.getElementById('exampleModalLabel');
           modalTitle.innerText=title;
   const modalDetails = document.getElementById('modalBodyDetails');
@@ -135,7 +144,7 @@ const toggleSpinner = isLoading =>{
 }
 
 
-loadAllNews('');
+loadAllNews('08');
 
 
 
