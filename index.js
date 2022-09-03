@@ -19,13 +19,14 @@ const loadAllCategories = async() =>{
     const res = await fetch(url);
     const data = await res.json();
     setAllMenu(data.data.news_category)
+    console.log(data.data.news_category)
     
   }
  const setAllMenu=async(catagories) =>{
    
      const menu = document.getElementById("all-menu");
     catagories.forEach(catagory => {
-        // console.log(catagory)
+         console.log(catagory)
         const li = document.createElement("li");
         li.innerHTML = `<a onclick="loadAllNews('${catagory.category_id}')">${catagory. category_name}</a>`;
         menu.appendChild(li);
@@ -45,6 +46,17 @@ const loadAllNews = async(category_id) =>{
 }
 
 const displayAllNews = (newses) =>{
+  const foundItems = document.getElementById('found-items');
+  if(newses.length>0){
+    foundItems.innerHTML=`
+    <h4>${newses.length} items found for this category'</h4>
+    `
+  }
+  else{
+    foundItems.innerHTML=`
+    <h4>No items found for this category'</h4>
+    `
+  }
   const newsContainer = document.getElementById('news-container');
   newsContainer.innerHTML = '';
 newses.forEach(news => {
@@ -107,6 +119,8 @@ const toggleSpinner = isLoading =>{
       loaderSection.classList.add('d-none')
   }
 }
+
+
 loadAllNews('');
 
 
